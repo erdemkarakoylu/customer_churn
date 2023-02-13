@@ -1,12 +1,41 @@
 import os
 import logging
-#import churn_library_solution as cls
+
+import pytest
+
+import churn_library as cl
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
     level = logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
+
+
+@pytest.fixture
+def train_models():
+	return cl.train_models
+
+
+@pytest.fixture
+def perform_feature_engineering():
+	return cl.perform_feature_engineering
+
+
+@pytest.fixture
+def encoder_helper():
+	return cl.encoder_helper
+
+
+@pytest.fixture
+def perform_eda():
+	return cl.perform_eda
+
+
+@pytest.fixture
+def import_data():
+	return cl.import_data
+
 
 def test_import(import_data):
 	'''

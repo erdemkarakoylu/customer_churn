@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 import logging
 
 import pytest
@@ -11,6 +11,15 @@ logging.basicConfig(
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
 
+
+
+@pytest.fixture(scope="session")
+def df_path():
+	return "./data/bank_data.csv"
+
+@pytest.fixture(scope="session")
+def dataframe():
+	return cl.import_data(df_path)
 
 @pytest.fixture
 def train_models():
@@ -37,12 +46,13 @@ def import_data():
 	return cl.import_data
 
 
-def test_import(import_data):
+def test_import(import_data, df_path):
 	'''
 	test data import - this example is completed for you to assist with the other test functions
 	'''
 	try:
-		df = import_data("./data/bank_data.csv")
+		#df = import_data("./data/bank_data.csv")
+		df = import_data(df_path)
 		logging.info("Testing import_data: SUCCESS")
 	except FileNotFoundError as err:
 		logging.error("Testing import_eda: The file wasn't found")
@@ -58,8 +68,10 @@ def test_import(import_data):
 
 def test_eda(perform_eda):
 	'''
-	test perform eda function
+	test perform eda function.
 	'''
+	#ßperform_eda()
+	
 
 
 def test_encoder_helper(encoder_helper):

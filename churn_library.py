@@ -3,8 +3,8 @@
 
 # import libraries
 import os
+import pandas as pd
 os.environ['QT_QPA_PLATFORM']='offscreen'
-
 
 
 def import_data(pth):
@@ -16,7 +16,7 @@ def import_data(pth):
     output:
             df: pandas dataframe
     '''	
-    pass
+    return pd.read_csv(pth)
 
 
 def perform_eda(df):

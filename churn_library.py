@@ -6,6 +6,8 @@ import os
 import pandas as pd
 os.environ['QT_QPA_PLATFORM']='offscreen'
 
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def import_data(pth):
     '''
@@ -28,7 +30,25 @@ def perform_eda(df):
     output:
             None
     '''
-    pass
+    df['Churn'] = df['Attrition_Flag'].apply(
+        lambda val: 0 if val == "Existing Customer" else 1)
+    f = plt.figure(figsize=(20, 10))
+    df['Churn'].hist()
+    f.savefig('./images/churn_histogram.png')
+    f = plt.figure(figsize=(20, 10))
+    df['Customer_Age'].hist()
+    f.savefig('./images/customer_age_hist.png')
+    f = plt.figure(figsize=(20, 10))
+    df.Marital_Status.value_counts('normalize').plot(kind='bar')
+    f.savefig('./images/marital_status_barplot.png')
+    f=plt.figure(figsize=(20, 10))
+    sns.histplot(df['Total_Trans_Ct'], stat='density', kde=True)
+    f.savefig('./images/total_trans_ct_density_plot.png')
+    f=plt.figure(figsize=(20, 10))
+    sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
+    f.savefig('./images/correlation_heatmap.png')
+
+
 
 
 def encoder_helper(df, category_lst, response):

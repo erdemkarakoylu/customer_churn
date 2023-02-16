@@ -64,7 +64,14 @@ def encoder_helper(df, category_lst, response):
     output:
             df: pandas dataframe with new columns for
     '''
-    pass
+    for category in category_lst:
+        category_lst = []
+        encoded_name = category + response
+        category_groups = df.groupby(category).mean()['Churn']
+        for val in df[category]:
+            category_lst.append(category_groups.loc[val])
+        df[encoded_name] = category_lst
+    return df
 
 
 def perform_feature_engineering(df, response):

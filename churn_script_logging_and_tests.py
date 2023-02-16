@@ -95,18 +95,20 @@ def test_encoder_helper(encoder_helper, dataframe, cat_cols):
 	'''
 	test encoder helper
 	'''
-	encoded_cols = [col + '_Churn' for col in cat_cols]
-	df = encoder_helper(dataframe, cat_cols, response='_Churn')
+	response = 'Churn'
+	encoded_cols = [col + '_' + 'Churn' for col in cat_cols]
+	df = encoder_helper(dataframe, cat_cols, response=response)
 	encoded_cols_set = set(encoded_cols)
 	assert set(df.columns.to_list()).intersection(encoded_cols_set) == encoded_cols_set
 	assert df[encoded_cols].shape[0] > 0
 
 
 
-def test_perform_feature_engineering(perform_feature_engineering):
+def test_perform_feature_engineering(perform_feature_engineering, dataframe):
 	'''
 	test perform_feature_engineering
 	'''
+	#X_train, X_test, y_train, y_test = perform_feature_engineering(dataframe, response='_Churn')
 
 
 def test_train_models(train_models):

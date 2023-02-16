@@ -67,8 +67,8 @@ def encoder_helper(df, category_lst, response):
     '''
     for category in category_lst:
         category_lst = []
-        encoded_name = category + response
-        category_groups = df.groupby(category).mean()['Churn']
+        encoded_name = category + '_' + response
+        category_groups = df.groupby(category).mean()[response]
         for val in df[category]:
             category_lst.append(category_groups.loc[val])
         df[encoded_name] = category_lst

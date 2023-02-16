@@ -18,7 +18,10 @@ def import_data(pth):
     output:
             df: pandas dataframe
     '''	
-    return pd.read_csv(pth)
+    df = pd.read_csv(pth)
+    df['Churn'] = df['Attrition_Flag'].apply(
+        lambda val: 0 if val == "Existing Customer" else 1)
+    return df
 
 
 def perform_eda(df):
@@ -30,8 +33,6 @@ def perform_eda(df):
     output:
             None
     '''
-    df['Churn'] = df['Attrition_Flag'].apply(
-        lambda val: 0 if val == "Existing Customer" else 1)
     f = plt.figure(figsize=(20, 10))
     df['Churn'].hist()
     f.savefig('./images/churn_histogram.png')

@@ -4,6 +4,7 @@ import warnings
 import pytest
 
 import churn_library as cl
+from constants import CAT_COLUMNS
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -13,6 +14,10 @@ logging.basicConfig(
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
 
+
+@pytest.fixture(scope='session')
+def cat_cols():
+	return CAT_COLUMNS
 
 @pytest.fixture(scope="session")
 def image_dir():

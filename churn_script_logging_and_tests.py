@@ -91,10 +91,16 @@ def test_eda(perform_eda, dataframe, image_dir):
 
 	
 
-def test_encoder_helper(encoder_helper):
+def test_encoder_helper(encoder_helper, dataframe, cat_cols):
 	'''
 	test encoder helper
 	'''
+	encoded_cols = [col + '_Churn' for col in cat_cols]
+	df = encoder_helper(dataframe, cat_cols, response='_Churn')
+	scc = set(cat_cols)
+	assert set(df.columns.to_list()).intersection(scc) == scc
+	assert df[cat_cols].shape[0] > 0
+
 
 
 def test_perform_feature_engineering(perform_feature_engineering):

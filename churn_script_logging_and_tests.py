@@ -97,9 +97,9 @@ def test_encoder_helper(encoder_helper, dataframe, cat_cols):
 	'''
 	encoded_cols = [col + '_Churn' for col in cat_cols]
 	df = encoder_helper(dataframe, cat_cols, response='_Churn')
-	scc = set(cat_cols)
-	assert set(df.columns.to_list()).intersection(scc) == scc
-	assert df[cat_cols].shape[0] > 0
+	encoded_cols_set = set(encoded_cols)
+	assert set(df.columns.to_list()).intersection(encoded_cols_set) == encoded_cols_set
+	assert df[encoded_cols].shape[0] > 0
 
 
 

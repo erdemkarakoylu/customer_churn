@@ -125,14 +125,18 @@ def test_perform_feature_engineering(perform_feature_engineering, dataframe):
 
 
 
-def test_train_models(train_models, dataframe):
+def test_train_models(
+		train_models, perform_feature_engineering, dataframe, 
+		logistic_model_path, random_forest_model_path):
 	'''
 	test train_models.
 	Note: adding "test mode" to train_models to avoid training models during testing.
 	'''
-	X_train, X_test, y_train, y_test = perform_feature_engineering(dataframe)
+	X_train, X_test, y_train, y_test = perform_feature_engineering(
+		dataframe, response='Churn')
 	train_models(X_train, X_test, y_train, y_test, test_mode=True)
-	logistic_model_path = ()
+	assert Path(logistic_model_path).exists()
+	assert Path(random_forest_model_path).exists()
 
 if __name__ == "__main__":
 	pass

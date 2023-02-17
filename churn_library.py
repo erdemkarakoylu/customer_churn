@@ -8,6 +8,9 @@ os.environ['QT_QPA_PLATFORM']='offscreen'
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+
+from constants import CAT_COLUMNS, KEEP_COLUMNS
 
 def import_data(pth):
     '''
@@ -49,9 +52,6 @@ def perform_eda(df):
     sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
     f.savefig('./images/correlation_heatmap.png')
 
-
-
-
 def encoder_helper(df, category_lst, response):
     '''
     helper function to turn each categorical column into a new column with
@@ -82,11 +82,19 @@ def perform_feature_engineering(df, response):
               response: string of response name [optional argument that could be used for naming variables or index y column]
 
     output:
-              X_train: X training data
-              X_test: X testing data
-              y_train: y training data
-              y_test: y testing data
+              X_train: pandas dataframe X training data
+              X_test: pandas dataframe X testing data
+              y_train: pandas dataframe y training data
+              y_test: pandas dataframe y testing data
     '''
+    df_encoded = encoder_helper(df, CAT_COLUMNS, response='Churn')
+    X = pd.DataFrame()
+    X[KEEP_COLUMNS] = df_encoded[KEEP_COLUMNS]
+    y = df['Churn']
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.3, random_state=42)
+    return X_train, X_test, y_train, y_test
+
 
 def classification_report_image(y_train,
                                 y_test,

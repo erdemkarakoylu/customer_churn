@@ -2,11 +2,13 @@
 
 
 # import libraries
+import joblib
 import os
-import pandas as pd
 os.environ['QT_QPA_PLATFORM']='offscreen'
 
+
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 
@@ -142,7 +144,21 @@ def train_models(X_train, X_test, y_train, y_test, test_mode=False):
               X_test: X testing data
               y_train: y training data
               y_test: y testing data
+              test_mode: False lets model training proceed
+                         True loads previously trained models
     output:
               None
     '''
-    pass
+    if test_mode:
+        rfc_model = joblib.load('./models/rfc_model.pkl')
+        lr_model = joblib.load('./models/logistic_model.pkl')
+    else:
+        rfc = RandomForestClassifier(random_state=42)
+        lrc = LogisticRegression(solver='lbfgs', max_iter=3000)
+
+        param_grid = { 
+        'n_estimators': [200, 500],
+        'max_features': ['auto', 'sqrt'],
+        'max_depth' : [4,5,100],
+        'criterion' :['gini', 'entropy']
+        }

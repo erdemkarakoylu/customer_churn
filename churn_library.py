@@ -8,6 +8,9 @@ os.environ['QT_QPA_PLATFORM']='offscreen'
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+
+from constants import CAT_COLUMNS, KEEP_COLUMNS
 
 def import_data(pth):
     '''
@@ -18,7 +21,10 @@ def import_data(pth):
     output:
             df: pandas dataframe
     '''	
-    return pd.read_csv(pth)
+    df = pd.read_csv(pth)
+    df['Churn'] = df['Attrition_Flag'].apply(
+        lambda val: 0 if val == "Existing Customer" else 1)
+    return df
 
 
 def perform_eda(df):
@@ -30,8 +36,6 @@ def perform_eda(df):
     output:
             None
     '''
-    df['Churn'] = df['Attrition_Flag'].apply(
-        lambda val: 0 if val == "Existing Customer" else 1)
     f = plt.figure(figsize=(20, 10))
     df['Churn'].hist()
     f.savefig('./images/churn_histogram.png')
@@ -48,9 +52,6 @@ def perform_eda(df):
     sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
     f.savefig('./images/correlation_heatmap.png')
 
-
-
-
 def encoder_helper(df, category_lst, response):
     '''
     helper function to turn each categorical column into a new column with
@@ -64,7 +65,14 @@ def encoder_helper(df, category_lst, response):
     output:
             df: pandas dataframe with new columns for
     '''
-    pass
+    for category in category_lst:
+        category_lst = []
+        encoded_name = category + '_' + response
+        category_groups = df.groupby(category).mean()[response]
+        for val in df[category]:
+            category_lst.append(category_groups.loc[val])
+        df[encoded_name] = category_lst
+    return df
 
 
 def perform_feature_engineering(df, response):
@@ -74,11 +82,19 @@ def perform_feature_engineering(df, response):
               response: string of response name [optional argument that could be used for naming variables or index y column]
 
     output:
-              X_train: X training data
-              X_test: X testing data
-              y_train: y training data
-              y_test: y testing data
+              X_train: pandas dataframe X training data
+              X_test: pandas dataframe X testing data
+              y_train: pandas dataframe y training data
+              y_test: pandas dataframe y testing data
     '''
+    df_encoded = encoder_helper(df, CAT_COLUMNS, response='Churn')
+    X = pd.DataFrame()
+    X[KEEP_COLUMNS] = df_encoded[KEEP_COLUMNS]
+    y = df['Churn']
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.3, random_state=42)
+    return X_train, X_test, y_train, y_test
+
 
 def classification_report_image(y_train,
                                 y_test,

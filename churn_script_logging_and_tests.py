@@ -1,11 +1,11 @@
 from pathlib import Path
 import logging
-import warnings
+
+import numpy as np
 import pytest
 
 import churn_library as cl
-
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+from constants import CAT_COLUMNS, KEEP_COLUMNS
 
 logging.basicConfig(
     filename='./logs/churn_library.log',
@@ -14,40 +14,41 @@ logging.basicConfig(
     format='%(name)s - %(levelname)s - %(message)s')
 
 
+@pytest.fixture(scope='session')
+def keep_cols():
+	return KEEP_COLUMNS
+
+@pytest.fixture(scope='session')
+def cat_cols():
+	return CAT_COLUMNS
+
 @pytest.fixture(scope="session")
 def image_dir():
 	return "./images"
-
 
 @pytest.fixture(scope="session")
 def df_path():
 	return "./data/bank_data.csv"
 
-
 @pytest.fixture(scope="session")
 def dataframe(df_path):
 	return cl.import_data(df_path)
-
 
 @pytest.fixture
 def train_models():
 	return cl.train_models
 
-
 @pytest.fixture
 def perform_feature_engineering():
 	return cl.perform_feature_engineering
-
 
 @pytest.fixture
 def encoder_helper():
 	return cl.encoder_helper
 
-
 @pytest.fixture
 def perform_eda():
 	return cl.perform_eda
-
 
 @pytest.fixture
 def import_data():
@@ -86,16 +87,34 @@ def test_eda(perform_eda, dataframe, image_dir):
 
 	
 
-def test_encoder_helper(encoder_helper):
+def test_encoder_helper(encoder_helper, dataframe, cat_cols):
 	'''
 	test encoder helper
 	'''
+	response = 'Churn'
+	encoded_cols = [col + '_' + response for col in cat_cols]
+	df = encoder_helper(dataframe, cat_cols, response=response)
+	encoded_cols_set = set(encoded_cols)
+	assert set(df.columns.to_list()).intersection(encoded_cols_set) == encoded_cols_set
+	assert df[encoded_cols].shape[0] > 0
 
 
-def test_perform_feature_engineering(perform_feature_engineering):
+
+def test_perform_feature_engineering(perform_feature_engineering, dataframe):
 	'''
 	test perform_feature_engineering
 	'''
+	X_train, X_test, y_train, y_test = perform_feature_engineering(
+		dataframe, response='Churn')
+	assert X_train.size > 0 
+	assert X_test.size > 0
+	assert y_train.size > 0
+	assert y_test.size > 0
+	assert set(X_train.columns.to_list()) == set(KEEP_COLUMNS)
+	assert set(X_test.columns.to_list()) == set(KEEP_COLUMNS)
+	assert y_train.name == 'Churn'
+	assert y_test.name == 'Churn'
+
 
 
 def test_train_models(train_models):

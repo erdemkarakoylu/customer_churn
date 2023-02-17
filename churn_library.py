@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 
 from constants import CAT_COLUMNS, KEEP_COLUMNS
 
+
 def import_data(pth):
     '''
     returns dataframe for the csv found at pth
@@ -51,6 +52,7 @@ def perform_eda(df):
     f=plt.figure(figsize=(20, 10))
     sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
     f.savefig('./images/correlation_heatmap.png')
+
 
 def encoder_helper(df, category_lst, response):
     '''
@@ -132,7 +134,7 @@ def feature_importance_plot(model, X_data, output_pth):
     '''
     pass
 
-def train_models(X_train, X_test, y_train, y_test):
+def train_models(X_train, X_test, y_train, y_test, test_mode=False):
     '''
     train, store model results: images + scores, and store models
     input:

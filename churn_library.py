@@ -165,3 +165,7 @@ def train_models(X_train, X_test, y_train, y_test, test_mode=False):
         'max_depth' : [4,5,100],
         'criterion' :['gini', 'entropy']
         }
+        cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
+        cv_rfc.fit(X_train, y_train)
+
+        lrc.fit(X_train, y_train)

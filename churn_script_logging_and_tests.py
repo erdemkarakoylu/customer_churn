@@ -15,6 +15,14 @@ logging.basicConfig(
 
 
 @pytest.fixture(scope='session')
+def logistic_model_path():
+	return './models/logistic_model.pkl'
+
+@pytest.fixture(scope='session')
+def random_forest_model_path():
+	return './models/rfc_model.pkl'
+
+@pytest.fixture(scope='session')
 def keep_cols():
 	return KEEP_COLUMNS
 
@@ -117,11 +125,14 @@ def test_perform_feature_engineering(perform_feature_engineering, dataframe):
 
 
 
-def test_train_models(train_models):
+def test_train_models(train_models, dataframe):
 	'''
-	test train_models
+	test train_models.
+	Note: adding "test mode" to train_models to avoid training models during testing.
 	'''
-
+	X_train, X_test, y_train, y_test = perform_feature_engineering(dataframe)
+	train_models(X_train, X_test, y_train, y_test, test_mode=True)
+	logistic_model_path = ()
 
 if __name__ == "__main__":
 	pass

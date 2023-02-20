@@ -135,8 +135,18 @@ def test_train_models(
 	X_train, X_test, y_train, y_test = perform_feature_engineering(
 		dataframe, response='Churn')
 	train_models(X_train, X_test, y_train, y_test, test_mode=True)
-	assert Path(logistic_model_path).exists()
-	assert Path(random_forest_model_path).exists()
+	try:
+		assert Path(logistic_model_path).exists()
+		logging.info("Logistic model binary found.")
+	except AssertionError as err:
+		logging.error("Logistic model binary file does not appear to exist.")
+		raise err
+	try:
+		assert Path(random_forest_model_path).exists()
+		logging.info("Random forest model binary file found.")
+	except AssertionError as err
+		logging.error("Random forest model binary file does not appear to exist.")  
+	# need to assert existnece of 
 
 if __name__ == "__main__":
 	pass

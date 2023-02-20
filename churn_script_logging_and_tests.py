@@ -144,9 +144,17 @@ def test_train_models(
 	try:
 		assert Path(random_forest_model_path).exists()
 		logging.info("Random forest model binary file found.")
-	except AssertionError as err
-		logging.error("Random forest model binary file does not appear to exist.")  
-	# need to assert existnece of 
+	except AssertionError as err:
+		logging.error("Random forest model binary file does not appear to exist.") 
+		raise err
+	# TODO 1: test existence of classification report image for LR and train set
+	# TODO 2: test existence of classification report image for LR and test set
+	# TODO 3: test existence of classification report image for RF and train set
+	# TODO 4: test existence of classification report image for RF and test set
+	# -----
+	# TODO 5: test existence of feature importance plot for LR and train set
+	# TODO 6: test existence of feature importance plot for RF and train set 
+
 
 if __name__ == "__main__":
 	pass

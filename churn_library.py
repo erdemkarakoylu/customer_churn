@@ -167,5 +167,13 @@ def train_models(X_train, X_test, y_train, y_test, test_mode=False):
         }
         cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
         cv_rfc.fit(X_train, y_train)
+        rfc_model = cv_rfc.best_estimator_
 
         lrc.fit(X_train, y_train)
+        lr_model = lrc
+    
+    y_train_preds_rf = rfc_model.predict(X_train)
+    y_test_preds_rf = rfc_model.predict(X_test)
+
+    y_train_preds_lr = lr_model.predict(X_train)
+    y_test_preds_lr = lr_model.predict(X_test)

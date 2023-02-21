@@ -15,6 +15,30 @@ logging.basicConfig(
 
 
 @pytest.fixture(scope='session')
+def lr_train_cls_img_report_path():
+	return './images/results/lr_train_cls_rep.png'
+
+@pytest.fixture(scope='session')
+def lr_test_cls_img_report_path():
+	return './images/results/lr_test_cls_rep.png'
+
+@pytest.fixture(scope='session')
+def rf_train_cls_img_report_path():
+	return './images/results/rf_train_cls_rep.png'
+
+@pytest.fixture(scope='session')
+def rf_test_cls_img_report_path():
+	return './images/results/rf_test_cls_rep.png'
+
+@pytest.fixture(scope='session')
+def lr_feat_imp_path():
+	return './images/results/lr_feat_imp.png'
+
+@pytest.fixture(scope='session')
+def rf_feat_imp_path():
+	return './images/results/rf_feat_imp.png'
+
+@pytest.fixture(scope='session')
 def logistic_model_path():
 	return './models/logistic_model.pkl'
 

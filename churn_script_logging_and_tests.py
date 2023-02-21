@@ -148,7 +148,8 @@ def test_perform_feature_engineering(perform_feature_engineering, dataframe):
 def test_train_models(
 		train_models, perform_feature_engineering, dataframe, 
 		logistic_model_path, random_forest_model_path,
-		lr_roc_curve_path, lr_feat_imp_path, rf_roc_curve_path, rf_feat_imp_path
+		lr_roc_curve_path, rf_roc_curve_path, lr_cls_rep_path, 
+		rf_cls_rep_path, rf_feat_imp_path
 		):
 	'''
 	test train_models.

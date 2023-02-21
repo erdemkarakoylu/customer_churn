@@ -2,4 +2,8 @@ root - INFO - test_import - Testing import_data: SUCCESS
 numexpr.utils - INFO - _init_num_threads - NumExpr defaulting to 8 threads.
 root - INFO - test_train_models - LR model binary found.
 root - INFO - test_train_models - RF model binary file found.
-root - ERROR - test_train_models - LR ROC curve plot does not appear to exist.
+root - INFO - test_train_models - LR ROC curve plot found.
+root - INFO - test_train_models - RF ROC curve plot found.
+root - INFO - test_train_models - RF feature importance plot found.
+root - INFO - test_train_models - LR classification report image found.
+root - INFO - test_train_models - RF classification report image found.

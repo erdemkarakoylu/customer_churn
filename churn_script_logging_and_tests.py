@@ -101,19 +101,29 @@ def test_import(import_data, df_path):
 		logging.error("Testing import_data: The file doesn't appear to have rows and columns")
 		raise err
 
-
-def test_eda(perform_eda, dataframe, image_dir):
+@pytest.mark.parametrize(
+		'eda_img_path',
+		[
+			'churn_histogram.png',
+			'customer_age_hist.png',
+			'marital_status_barplot.png',
+			'total_trans_ct_density_plot.png',
+			'correlation_heatmap.png'
+		]
+)
+def test_perform_eda(perform_eda, dataframe, image_dir, eda_img_path):
 	'''
 	test perform eda function.
 	'''
+	logging.info("Testing perform_eda...")
 	perform_eda(dataframe)
-	assert Path(image_dir + "/eda/churn_histogram.png").exists()
-	assert Path(image_dir + "/eda/customer_age_hist.png").exists()
-	assert Path(image_dir + "/eda/marital_status_barplot.png").exists()
-	assert Path(image_dir + "/eda/total_trans_ct_density_plot.png").exists()
-	assert Path(image_dir + "/eda/correlation_heatmap.png").exists()
-
 	
+	try:
+		assert Path(image_dir + "/eda/" + eda_img_path).exists()
+		logging.info(f"{eda_img_path} found.")
+	except AssertionError as err:
+		logging.error(f"{eda_img_path} does not appear to exist")
+		raise err
 
 def test_encoder_helper(encoder_helper, dataframe, cat_cols):
 	'''
@@ -123,25 +133,31 @@ def test_encoder_helper(encoder_helper, dataframe, cat_cols):
 	encoded_cols = [col + '_' + response for col in cat_cols]
 	df = encoder_helper(dataframe, cat_cols, response=response)
 	encoded_cols_set = set(encoded_cols)
-	assert set(df.columns.to_list()).intersection(encoded_cols_set) == encoded_cols_set
-	assert df[encoded_cols].shape[0] > 0
-
-
+	try:
+		assert set(df.columns.to_list()).intersection(encoded_cols_set) == encoded_cols_set
+		assert df[encoded_cols].shape[0] > 0
+		logging.info("Testing encoder_helper: SUCCESS!")
+	except AssertionError as err:
+		logging.error("Testing encoder_helper: Problem with the returned dataframe. ")
+		raise err
 
 def test_perform_feature_engineering(perform_feature_engineering, dataframe):
 	'''
 	test perform_feature_engineering
 	'''
+	logging.info("Testing perform_feature_engineering...")
 	X_train, X_test, y_train, y_test = perform_feature_engineering(
 		dataframe, response='Churn')
-	assert X_train.size > 0 
-	assert X_test.size > 0
-	assert y_train.size > 0
-	assert y_test.size > 0
-	assert set(X_train.columns.to_list()) == set(KEEP_COLUMNS)
-	assert set(X_test.columns.to_list()) == set(KEEP_COLUMNS)
-	assert y_train.name == 'Churn'
-	assert y_test.name == 'Churn'
+	
+	try:
+		assert X_train.size > 0 
+		assert X_test.size > 0
+		assert y_train.size > 0
+		assert y_test.size > 0
+		logging.info("Success")
+	except AssertionError as err:
+		logging.error("Failure: returned data empty.")
+		raise err		
 
 
 

@@ -47,18 +47,23 @@ def perform_eda(df):
     f = plt.figure(figsize=(20, 10))
     df['Churn'].hist()
     f.savefig('./images/eda/churn_histogram.png')
+    plt.close(f)
     f = plt.figure(figsize=(20, 10))
     df['Customer_Age'].hist()
     f.savefig('./images/eda/customer_age_hist.png')
+    plt.close(f)
     f = plt.figure(figsize=(20, 10))
     df.Marital_Status.value_counts('normalize').plot(kind='bar')
     f.savefig('./images/eda/marital_status_barplot.png')
+    plt.close(f)
     f=plt.figure(figsize=(20, 10))
     sns.histplot(df['Total_Trans_Ct'], stat='density', kde=True)
     f.savefig('./images/eda/total_trans_ct_density_plot.png')
+    plt.close(f)
     f=plt.figure(figsize=(20, 10))
     sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths=2)
     f.savefig('./images/eda/correlation_heatmap.png')
+    plt.close(f)
 
 
 def encoder_helper(df, category_lst, response):

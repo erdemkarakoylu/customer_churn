@@ -131,7 +131,7 @@ def classification_report_image(y_train,
     ax.text(0.01, 0.6, str('Random Forest Test'), {'fontsize': 10}, fontproperties = 'monospace')
     ax.text(0.01, 0.7, str(classification_report(y_train, y_train_preds_rf)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
     ax.set_visible('off')
-    f.savefig('./images/results/cls_rep_rf.png',)
+    f.savefig('./images/results/rf_cls_rep.png',)
 
     f, ax = plt.subplots(figsize=(5, 5))
     ax.text(0.01, 1.25, str('Logistic Regression Train'), {'fontsize': 10}, fontproperties = 'monospace')
@@ -139,10 +139,10 @@ def classification_report_image(y_train,
     ax.text(0.01, 0.6, str('Logistic Regression Test'), {'fontsize': 10}, fontproperties = 'monospace')
     ax.text(0.01, 0.7, str(classification_report(y_test, y_test_preds_lr)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
     ax.set_visible('off')
-    f.savefig('./images/results/cls_rep_lr.png')
+    f.savefig('./images/results/lr_cls_rep.png')
 
 
-def plot_roc_curve(X_data, y_data, model, out_pth):
+def plot_roc(X_data, y_data, model, out_pth):
     '''
     creates and stores the feature importances in out_pth
     input:
@@ -159,7 +159,7 @@ def plot_roc_curve(X_data, y_data, model, out_pth):
     f.savefig(out_pth, dpi=300)
 
 
-def feature_importance_plot(rf_model, X_data, output_pth):
+def feature_importance_plot(rf_model, X_data, out_pth):
     '''
     creates and stores the feature importances in output_pth
     input:
@@ -174,9 +174,16 @@ def feature_importance_plot(rf_model, X_data, output_pth):
     importances=rf_model.feature_importances_
     # Sort feature importances in descending order
     indices = np.argsort(importances)[::-1]
+    # Rearrange feature names so they match the sorted feature importances
+    names = [X_data.columns[i] for i in indices]
+    f, ax = plt.subplots(figsize=(20, 5))
+    ax.set_title('Feature Importance')
+    ax.set_ylabel('Importance')
+    ax.bar(range(X_data.shape[1]), importances[indices])
+    ax.set_xticks(range(X_data.shape[1]))
+    ax.set_xticklabels(names, rotation=90)
+    f.savefig(out_pth)
 
-# Rearrange feature names so they match the sorted feature importances
-names = [X.columns[i] for i in indices]
 
 def train_models(X_train, X_test, y_train, y_test, test_mode=False):
     '''
@@ -220,12 +227,18 @@ def train_models(X_train, X_test, y_train, y_test, test_mode=False):
     y_train_preds_lr = lr_model.predict(X_train)
     y_test_preds_lr = lr_model.predict(X_test)
 
-    plot_roc_curve(
+    plot_roc(
         X_test, y_test, model=lr_model, 
-        save_path="./images/results/lr_roc_curve.png")
-    plot_roc_curve(
+        out_pth="./images/results/lr_roc_curve.png")
+    
+    plot_roc(
         X_test, y_test, model=rfc_model, 
-        save_path="./images/results/rf_roc_curve.png"
-    )
+        out_pth="./images/results/rf_roc_curve.png")
 
-    feature_importance_plot()
+    feature_importance_plot(
+        rfc_model, X_train, out_pth='./images/results/rf_feat_imp.png')
+    
+    classification_report_image(
+        y_train=y_train, y_test=y_test, y_train_preds_lr=y_train_preds_lr, 
+        y_train_preds_rf=y_train_preds_rf, y_test_preds_lr=y_test_preds_lr, 
+        y_test_preds_rf=y_test_preds_rf)

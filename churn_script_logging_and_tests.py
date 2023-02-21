@@ -11,28 +11,24 @@ logging.basicConfig(
     filename='./logs/churn_library.log',
     level = logging.INFO,
     filemode='w',
-    format='%(name)s - %(levelname)s - %(message)s')
+    format='%(name)s - %(levelname)s - %(funcName)s - %(message)s')
 
 
 @pytest.fixture(scope='session')
-def lr_train_cls_img_report_path():
-	return './images/results/lr_train_cls_rep.png'
+def lr_roc_curve_path():
+	return './images/results/lr_roc_curve.png'
 
 @pytest.fixture(scope='session')
-def lr_test_cls_img_report_path():
-	return './images/results/lr_test_cls_rep.png'
+def rf_roc_curve_path():
+	return './images/results/rf_roc_curve.png'
 
 @pytest.fixture(scope='session')
-def rf_train_cls_img_report_path():
-	return './images/results/rf_train_cls_rep.png'
+def lr_cls_rep_path():
+	return './images/results/lr_cls_rep.png'
 
 @pytest.fixture(scope='session')
-def rf_test_cls_img_report_path():
-	return './images/results/rf_test_cls_rep.png'
-
-@pytest.fixture(scope='session')
-def lr_feat_imp_path():
-	return './images/results/lr_feat_imp.png'
+def rf_cls_rep_path():
+	return './images/results/rf_cls_rep.png'
 
 @pytest.fixture(scope='session')
 def rf_feat_imp_path():
@@ -151,7 +147,9 @@ def test_perform_feature_engineering(perform_feature_engineering, dataframe):
 
 def test_train_models(
 		train_models, perform_feature_engineering, dataframe, 
-		logistic_model_path, random_forest_model_path):
+		logistic_model_path, random_forest_model_path,
+		lr_roc_curve_path, lr_feat_imp_path, rf_roc_curve_path, rf_feat_imp_path
+		):
 	'''
 	test train_models.
 	Note: adding "test mode" to train_models to avoid training models during testing.
@@ -161,24 +159,46 @@ def test_train_models(
 	train_models(X_train, X_test, y_train, y_test, test_mode=True)
 	try:
 		assert Path(logistic_model_path).exists()
-		logging.info("Logistic model binary found.")
+		logging.info("LR model binary found.")
 	except AssertionError as err:
-		logging.error("Logistic model binary file does not appear to exist.")
+		logging.error("LR model binary file does not appear to exist.")
 		raise err
 	try:
 		assert Path(random_forest_model_path).exists()
-		logging.info("Random forest model binary file found.")
+		logging.info("RF model binary file found.")
 	except AssertionError as err:
-		logging.error("Random forest model binary file does not appear to exist.") 
+		logging.error("RF model binary file does not appear to exist.") 
 		raise err
-	# TODO 1: test existence of classification report image for LR and train set
-	# TODO 2: test existence of classification report image for LR and test set
-	# TODO 3: test existence of classification report image for RF and train set
-	# TODO 4: test existence of classification report image for RF and test set
-	# -----
-	# TODO 5: test existence of feature importance plot for LR and train set
-	# TODO 6: test existence of feature importance plot for RF and train set 
-
+	try:
+		assert Path(lr_roc_curve_path).exists()
+		logging.info("LR ROC curve plot found.")
+	except AssertionError as err:
+		logging.error("LR ROC curve plot does not appear to exist.")
+		raise err
+	try:
+		assert Path(rf_roc_curve_path).exists()
+		logging.info("RF ROC curve plot found.")
+	except AssertionError as err:
+		logging.error("RF ROC curve does not appear to exist.")
+		raise err
+	try:
+		assert Path(rf_feat_imp_path).exists()
+		logging.info("RF feature importance plot found.")
+	except AssertionError as err:
+		logging.error("RF feature importance plot does not appear to exist.")
+		raise err
+	try:
+		assert Path(lr_cls_rep_path).exists()
+		logging.info('LR classification report image found.')
+	except AssertionError as err:
+		logging.error('LR classification report image does not appear to exist.')
+		raise err
+	try:
+		assert Path(rf_cls_rep_path).exists()
+		logging.info('RF classification report image found.')
+	except AssertionError as err:
+		logging.error('RF classification report image does not appear to exist.')
+		raise err
 
 if __name__ == "__main__":
 	pass

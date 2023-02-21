@@ -107,11 +107,11 @@ def test_eda(perform_eda, dataframe, image_dir):
 	test perform eda function.
 	'''
 	perform_eda(dataframe)
-	assert Path(image_dir + "/churn_histogram.png").exists()
-	assert Path(image_dir + "/customer_age_hist.png").exists()
-	assert Path(image_dir + "/marital_status_barplot.png").exists()
-	assert Path(image_dir + "/total_trans_ct_density_plot.png").exists()
-	assert Path(image_dir + "/correlation_heatmap.png").exists()
+	assert Path(image_dir + "/eda/churn_histogram.png").exists()
+	assert Path(image_dir + "/eda/customer_age_hist.png").exists()
+	assert Path(image_dir + "/eda/marital_status_barplot.png").exists()
+	assert Path(image_dir + "/eda/total_trans_ct_density_plot.png").exists()
+	assert Path(image_dir + "/eda/correlation_heatmap.png").exists()
 
 	
 

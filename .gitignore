@@ -1,4 +1,4 @@
 .vscode/settings.json
 *.pyc
 images/
-logs/churn_library.log
+*.log

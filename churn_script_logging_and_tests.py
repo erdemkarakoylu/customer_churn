@@ -122,7 +122,7 @@ def test_perform_eda(perform_eda, dataframe, image_dir, eda_img_path):
 		assert Path(image_dir + "/eda/" + eda_img_path).exists()
 		logging.info(f"{eda_img_path} found.")
 	except AssertionError as err:
-		logging.error(f"{eda_img_path} does not appear to exist")
+		logging.error(f"{eda_img_path} does not appear to exist.")
 		raise err
 
 def test_encoder_helper(encoder_helper, dataframe, cat_cols):
@@ -160,70 +160,51 @@ def test_perform_feature_engineering(perform_feature_engineering, dataframe):
 		raise err		
 
 
-
+@pytest.mark.parametrize(
+		'result_plot_path',
+		[
+			'lr_roc_curve.png',
+			'rf_roc_curve.png',
+			'lr_cls_rep.png',
+			'rf_cls_rep.png',
+			'rf_feat_imp.png'
+			]
+)
 def test_train_models(
 		train_models, perform_feature_engineering, dataframe, 
-		logistic_model_path, random_forest_model_path,
-		lr_roc_curve_path, rf_roc_curve_path, lr_cls_rep_path, 
-		rf_cls_rep_path, rf_feat_imp_path
+		logistic_model_path, random_forest_model_path, 
+		image_dir, result_plot_path
 		):
 	'''
 	test train_models.
 	Note: adding "test mode" to train_models to avoid training models during testing.
 	'''
+	logging.info('Testing train_models...')
 	X_train, X_test, y_train, y_test = perform_feature_engineering(
 		dataframe, response='Churn')
 	train_models(X_train, X_test, y_train, y_test, test_mode=True)
 	try:
 		assert Path(logistic_model_path).exists()
-		logging.info("LR model binary found.")
+		logging.info("Saved LR model file found.")
 	except AssertionError as err:
-		logging.error("LR model binary file does not appear to exist.")
+		logging.error("LR model file does not appear to exist.")
 		raise err
 	try:
 		assert Path(random_forest_model_path).exists()
-		logging.info("RF model binary file found.")
+		logging.info("Saved RF model file found.")
 	except AssertionError as err:
-		logging.error("RF model binary file does not appear to exist.") 
+		logging.error("RF model file does not appear to exist.") 
 		raise err
 	try:
-		assert Path(lr_roc_curve_path).exists()
-		logging.info("LR ROC curve plot found.")
+		#assert Path(lr_roc_curve_path).exists()
+		assert Path(image_dir + '/results/' + result_plot_path).exists()
+		#logging.info("LR ROC curve plot found.")
+		logging.info(f'{result_plot_path} found.')
 	except AssertionError as err:
-		logging.error("LR ROC curve plot does not appear to exist.")
+		#logging.error("LR ROC curve plot does not appear to exist.")
+		logging.error(f'{result_plot_path}does not appear to exist.')
 		raise err
-	try:
-		assert Path(rf_roc_curve_path).exists()
-		logging.info("RF ROC curve plot found.")
-	except AssertionError as err:
-		logging.error("RF ROC curve does not appear to exist.")
-		raise err
-	try:
-		assert Path(rf_feat_imp_path).exists()
-		logging.info("RF feature importance plot found.")
-	except AssertionError as err:
-		logging.error("RF feature importance plot does not appear to exist.")
-		raise err
-	try:
-		assert Path(lr_cls_rep_path).exists()
-		logging.info('LR classification report image found.')
-	except AssertionError as err:
-		logging.error('LR classification report image does not appear to exist.')
-		raise err
-	try:
-		assert Path(rf_cls_rep_path).exists()
-		logging.info('RF classification report image found.')
-	except AssertionError as err:
-		logging.error('RF classification report image does not appear to exist.')
-		raise err
+	
 
 if __name__ == "__main__":
 	pass
-
-
-
-
-
-
-
-

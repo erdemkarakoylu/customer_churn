@@ -18,6 +18,7 @@ Requirements come in 3 versions. requirements_py36.txt and py38.txt are for inst
 
 Subfolders were named after their content to avoid surprises. See below for more:
 
+```
 .  \
 ├── README.md\
 ├── churn_library.py\
@@ -48,7 +49,7 @@ Subfolders were named after their content to avoid surprises. See below for more
 ├── requirements_py3.6.txt\
 ├── requirements_py3.8.txt\
 └── requirements_py3.8.yml
-
+```
 9 directories, 28 files
 
 ## Running Files

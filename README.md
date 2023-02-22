@@ -19,35 +19,35 @@ Requirements come in 3 versions. requirements_py36.txt and py38.txt are for inst
 Subfolders were named after their content to avoid surprises. See below for more:
 
 ```
-.  \
-├── README.md\
-├── churn_library.py\
-├── churn_notebook.ipynb\
-├── churn_script_logging_and_tests.py\
-├── constants.py\
-├── data\
-│  └── bank_data.csv\
-├── images\
-│   ├── eda\
-│   │   ├── churn_histogram.png\
-│   │   ├── correlation_heatmap.png\
-│   │   ├── customer_age_hist.png\
-│   │   ├── marital_status_barplot.png\
-│   │   └── total_trans_ct_density_plot.png\
-│   └── results\
-│   ├── lr_cls_rep.png\
-│   ├── lr_roc_curve.png\
-│   ├── rf_cls_rep.png\
-│   ├── rf_feat_imp.png\
-│   └── rf_roc_curve.png\
-├── logs\
-│   └── churn_library.log\
-├── models\
-│   ├── logistic_model.pkl\
-│   └── rfc_model.pkl\
-├── pytest.ini\
-├── requirements_py3.6.txt\
-├── requirements_py3.8.txt\
+.  
+├── README.md
+├── churn_library.py
+├── churn_notebook.ipynb
+├── churn_script_logging_and_tests.py
+├── constants.py
+├── data
+│  └── bank_data.csv
+├── images
+│   ├── eda
+│   │   ├── churn_histogram.png
+│   │   ├── correlation_heatmap.png
+│   │   ├── customer_age_hist.png
+│   │   ├── marital_status_barplot.png
+│   │   └── total_trans_ct_density_plot.png
+│   └── results
+│   ├── lr_cls_rep.png
+│   ├── lr_roc_curve.png
+│   ├── rf_cls_rep.png
+│   ├── rf_feat_imp.png
+│   └── rf_roc_curve.png
+├── logs
+│   └── churn_library.log
+├── models
+│   ├── logistic_model.pkl
+│   └── rfc_model.pkl
+├── pytest.ini
+├── requirements_py3.6.txt
+├── requirements_py3.8.txt
 └── requirements_py3.8.yml
 ```
 9 directories, 28 files

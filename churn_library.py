@@ -137,6 +137,7 @@ def classification_report_image(y_train,
     ax.text(0.01, 0.7, str(classification_report(y_train, y_train_preds_rf)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
     ax.set_visible('off')
     f.savefig('./images/results/rf_cls_rep.png',)
+    plt.close(f)
 
     f, ax = plt.subplots(figsize=(5, 5))
     ax.text(0.01, 1.25, str('Logistic Regression Train'), {'fontsize': 10}, fontproperties = 'monospace')
@@ -145,6 +146,7 @@ def classification_report_image(y_train,
     ax.text(0.01, 0.7, str(classification_report(y_test, y_test_preds_lr)), {'fontsize': 10}, fontproperties = 'monospace') # approach improved by OP -> monospace!
     ax.set_visible('off')
     f.savefig('./images/results/lr_cls_rep.png')
+    plt.close(f)
 
 
 def plot_roc(X_data, y_data, model, out_pth):
@@ -162,6 +164,7 @@ def plot_roc(X_data, y_data, model, out_pth):
     f, ax = plt.subplots(figsize=(15, 8))
     plot_roc_curve(model, X_data, y_data, ax=ax)
     f.savefig(out_pth, dpi=300)
+    plt.close(f)
 
 
 def feature_importance_plot(rf_model, X_data, out_pth):
@@ -188,6 +191,7 @@ def feature_importance_plot(rf_model, X_data, out_pth):
     ax.set_xticks(range(X_data.shape[1]))
     ax.set_xticklabels(names, rotation=90)
     f.savefig(out_pth)
+    plt.close(f)
 
 
 def train_models(X_train, X_test, y_train, y_test, test_mode=False):

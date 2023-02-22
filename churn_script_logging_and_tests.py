@@ -205,6 +205,3 @@ def test_train_models(
 		logging.error(f'{result_plot_path}does not appear to exist.')
 		raise err
 	
-
-if __name__ == "__main__":
-	pass

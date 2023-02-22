@@ -251,3 +251,13 @@ def train_models(X_train, X_test, y_train, y_test, test_mode=False):
         y_train=y_train, y_test=y_test, y_train_preds_lr=y_train_preds_lr, 
         y_train_preds_rf=y_train_preds_rf, y_test_preds_lr=y_test_preds_lr, 
         y_test_preds_rf=y_test_preds_rf)
+
+
+if __name__ == "__main__":
+    df = import_data('./data/bank_data.csv')
+    perform_eda(df)
+    df = encoder_helper(df, CAT_COLUMNS, response='Churn')
+    X_train, X_test, y_train, y_test = perform_feature_engineering(df, response='Churn')
+    train_models(X_train, X_test, y_train, y_test)
+        
+        

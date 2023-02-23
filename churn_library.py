@@ -140,13 +140,13 @@ def classification_report_image(y_train,
     out_pth = pred_dict['out_path']
     fig, axis = plt.subplots(figsize=(5, 5))
     axis.text(0.01, 1.25, str(model_name + ' Train'), {
-            'fontsize': 10}, fontproperties='monospace')
+        'fontsize': 10}, fontproperties='monospace')
     axis.text(0.01, 0.05, str(classification_report(y_train, y_train_preds)), {
-            'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
+        'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
     axis.text(0.01, 0.6, str(model_name + ' Test'), {
-            'fontsize': 10}, fontproperties='monospace')
+        'fontsize': 10}, fontproperties='monospace')
     axis.text(0.01, 0.7, str(classification_report(y_test, y_test_preds)), {
-            'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
+        'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
     axis.set_visible('off')
     fig.savefig(out_pth)
     plt.close(fig)
@@ -250,8 +250,10 @@ def train_models(x_train, x_test, y_train, y_test, test_mode=False):
         rfc_model, x_train, out_pth='./images/results/rf_feat_imp.png')
 
     cls_rep_payload_lr = dict(
-        y_train_pred=y_train_preds_lr, y_test_pred=y_test_preds_lr,
-        model_name='Logistic Regression', out_path='./images/results/lr_cls_rep.png')
+        y_train_pred=y_train_preds_lr,
+        y_test_pred=y_test_preds_lr,
+        model_name='Logistic Regression',
+        out_path='./images/results/lr_cls_rep.png')
     cls_rep_payload_rf = dict(
         y_train_pred=y_train_preds_rf, y_test_pred=y_test_preds_rf,
         model_name='Random Forest', out_path='./images/results/rf_cls_rep.png')

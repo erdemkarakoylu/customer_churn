@@ -201,29 +201,9 @@ def test_perform_feature_engineering(perform_feature_engineering, dataframe):
         raise err
 
 
-@pytest.mark.parametrize(
-    'result_plot_path',
-    [
-        'lr_roc_curve.png',
-        'rf_roc_curve.png',
-        'lr_cls_rep.png',
-        'rf_cls_rep.png',
-        'rf_feat_imp.png'
-    ]
-)
-def test_train_models(
-    train_models, perform_feature_engineering, dataframe,
-    logistic_model_path, random_forest_model_path,
-    image_dir, result_plot_path
-):
-    '''
-    Test of train_models function in churn_library.py.
-    Note: adding "test mode" to train_models to avoid training models during testing.
-    '''
-    logging.info('Testing train_models...')
-    x_train, x_test, y_train, y_test = perform_feature_engineering(
-        dataframe, response='Churn')
-    train_models(x_train, x_test, y_train, y_test, test_mode=True)
+
+def test_model_files(logistic_model_path, random_forest_model_path):
+    "Testing for the availability of saved model files."
     try:
         assert Path(logistic_model_path).exists()
         logging.info("Saved LR model file found.")
@@ -236,6 +216,30 @@ def test_train_models(
     except AssertionError as err:
         logging.error("RF model file does not appear to exist.")
         raise err
+
+
+@pytest.mark.parametrize(
+    'result_plot_path',
+    [
+        'lr_roc_curve.png',
+        'rf_roc_curve.png',
+        'lr_cls_rep.png',
+        'rf_cls_rep.png',
+        'rf_feat_imp.png'
+    ]
+)
+def test_train_models(
+    train_models, perform_feature_engineering, dataframe,
+    image_dir, result_plot_path
+):
+    '''
+    Test of train_models function in churn_library.py.
+    Note: adding "test mode" to train_models to avoid training models during testing.
+    '''
+    x_train, x_test, y_train, y_test = perform_feature_engineering(
+        dataframe, response='Churn')
+    train_models(x_train, x_test, y_train, y_test, test_mode=True)
+   
     try:
         assert Path(image_dir + '/results/' + result_plot_path).exists()
         logging.info(f'{result_plot_path} found.')

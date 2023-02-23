@@ -97,7 +97,6 @@ def test_perform_feature_engineering(perform_feature_engineering, dataframe):
         raise err
 
 
-
 def test_model_files(logistic_model_path, random_forest_model_path):
     "Testing for the availability of saved model files."
     try:

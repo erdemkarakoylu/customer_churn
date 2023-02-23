@@ -120,48 +120,35 @@ def perform_feature_engineering(dframe, response):
 
 def classification_report_image(y_train,
                                 y_test,
-                                y_train_preds_lr,
-                                y_train_preds_rf,
-                                y_test_preds_lr,
-                                y_test_preds_rf):
+                                pred_dict):
     '''
     produces classification report for training and testing results and stores report as image
     in images folder
     input:
             y_train: training response values
             y_test:  test response values
-            y_train_preds_lr: training predictions from logistic regression
-            y_train_preds_rf: training predictions from random forest
-            y_test_preds_lr: test predictions from logistic regression
-            y_test_preds_rf: test predictions from random forest
+            pred_dict: dictionary with train and test response predictions
+                                       model type
+                                       path to save image to.
 
     output:
              None
     '''
+    model_name = pred_dict['model_name'].capitalize()
+    y_train_preds = pred_dict['y_train_pred']
+    y_test_preds = pred_dict['y_test_pred']
+    out_pth = pred_dict['out_path']
     fig, axis = plt.subplots(figsize=(5, 5))
-    axis.text(0.01, 1.25, str('Random Forest Train'), {
+    axis.text(0.01, 1.25, str(model_name + ' Train'), {
             'fontsize': 10}, fontproperties='monospace')
-    axis.text(0.01, 0.05, str(classification_report(y_test, y_test_preds_rf)), {
+    axis.text(0.01, 0.05, str(classification_report(y_train, y_train_preds)), {
             'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
-    axis.text(0.01, 0.6, str('Random Forest Test'), {
+    axis.text(0.01, 0.6, str(model_name + ' Test'), {
             'fontsize': 10}, fontproperties='monospace')
-    axis.text(0.01, 0.7, str(classification_report(y_train, y_train_preds_rf)), {
+    axis.text(0.01, 0.7, str(classification_report(y_test, y_test_preds)), {
             'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
     axis.set_visible('off')
-    fig.savefig('./images/results/rf_cls_rep.png',)
-    plt.close(fig)
-
-    fig, axis = plt.subplots(figsize=(5, 5))
-    axis.text(0.01, 1.25, str('Logistic Regression Train'),
-            {'fontsize': 10}, fontproperties='monospace')
-    axis.text(0.01, 0.05, str(classification_report(y_train, y_train_preds_lr)), {
-            'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
-    axis.text(0.01, 0.6, str('Logistic Regression Test'), {
-            'fontsize': 10}, fontproperties='monospace')
-    axis.text(0.01, 0.7, str(classification_report(y_test, y_test_preds_lr)), {
-            'fontsize': 10}, fontproperties='monospace')  # approach improved by OP -> monospace!
-    axis.set_visible('off')
-    fig.savefig('./images/results/lr_cls_rep.png')
+    fig.savefig(out_pth)
     plt.close(fig)
 
 
@@ -227,8 +214,8 @@ def train_models(x_train, x_test, y_train, y_test, test_mode=False):
         rfc_model = joblib.load('./models/rfc_model.pkl')
         lr_model = joblib.load('./models/logistic_model.pkl')
     else:
-        rfc = RandomForestClassifier(random_state=42)
-        lrc = LogisticRegression(solver='lbfgs', max_iter=3000)
+        rfc_model = RandomForestClassifier(random_state=42)
+        lr_model = LogisticRegression(solver='lbfgs', max_iter=3000)
 
         param_grid = {
             'n_estimators': [200, 500],
@@ -236,15 +223,14 @@ def train_models(x_train, x_test, y_train, y_test, test_mode=False):
             'max_depth': [4, 5, 100],
             'criterion': ['gini', 'entropy']
         }
-        cv_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv=5)
+        cv_rfc = GridSearchCV(estimator=rfc_model, param_grid=param_grid, cv=5)
         cv_rfc.fit(x_train, y_train)
         # save best model
         joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
-        joblib.dump(lrc, './models/logistic_model.pkl')
+        joblib.dump(lr_model, './models/logistic_model.pkl')
         rfc_model = cv_rfc.best_estimator_
 
-        lrc.fit(x_train, y_train)
-        lr_model = lrc
+        lr_model.fit(x_train, y_train)
 
     y_train_preds_rf = rfc_model.predict(x_train)
     y_test_preds_rf = rfc_model.predict(x_test)
@@ -263,10 +249,17 @@ def train_models(x_train, x_test, y_train, y_test, test_mode=False):
     feature_importance_plot(
         rfc_model, x_train, out_pth='./images/results/rf_feat_imp.png')
 
+    cls_rep_payload_lr = dict(
+        y_train_pred=y_train_preds_lr, y_test_pred=y_test_preds_lr,
+        model_name='Logistic Regression', out_path='./images/results/lr_cls_rep.png')
+    cls_rep_payload_rf = dict(
+        y_train_pred=y_train_preds_rf, y_test_pred=y_test_preds_rf,
+        model_name='Random Forest', out_path='./images/results/rf_cls_rep.png')
     classification_report_image(
-        y_train=y_train, y_test=y_test, y_train_preds_lr=y_train_preds_lr,
-        y_train_preds_rf=y_train_preds_rf, y_test_preds_lr=y_test_preds_lr,
-        y_test_preds_rf=y_test_preds_rf)
+        y_train=y_train, y_test=y_test, pred_dict=cls_rep_payload_lr)
+    classification_report_image(
+        y_train=y_train, y_test=y_test, pred_dict=cls_rep_payload_rf
+    )
 
 
 if __name__ == "__main__":

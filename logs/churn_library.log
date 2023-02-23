@@ -1,9 +1,35 @@
 root - INFO - test_import - Testing import_data: SUCCESS
+root - INFO - test_perform_eda - Testing perform_eda...
 numexpr.utils - INFO - _init_num_threads - NumExpr defaulting to 8 threads.
-root - INFO - test_train_models - LR model binary found.
-root - INFO - test_train_models - RF model binary file found.
-root - INFO - test_train_models - LR ROC curve plot found.
-root - INFO - test_train_models - RF ROC curve plot found.
-root - INFO - test_train_models - RF feature importance plot found.
-root - INFO - test_train_models - LR classification report image found.
-root - INFO - test_train_models - RF classification report image found.
+root - INFO - test_perform_eda - churn_histogram.png found.
+root - INFO - test_perform_eda - Testing perform_eda...
+root - INFO - test_perform_eda - customer_age_hist.png found.
+root - INFO - test_perform_eda - Testing perform_eda...
+root - INFO - test_perform_eda - marital_status_barplot.png found.
+root - INFO - test_perform_eda - Testing perform_eda...
+root - INFO - test_perform_eda - total_trans_ct_density_plot.png found.
+root - INFO - test_perform_eda - Testing perform_eda...
+root - INFO - test_perform_eda - correlation_heatmap.png found.
+root - INFO - test_encoder_helper - Testing encoder_helper: SUCCESS!
+root - INFO - test_perform_feature_engineering - Testing perform_feature_engineering...
+root - INFO - test_perform_feature_engineering - Success
+root - INFO - test_train_models - Testing train_models...
+root - INFO - test_train_models - Saved LR model file found.
+root - INFO - test_train_models - Saved RF model file found.
+root - INFO - test_train_models - lr_roc_curve.png found.
+root - INFO - test_train_models - Testing train_models...
+root - INFO - test_train_models - Saved LR model file found.
+root - INFO - test_train_models - Saved RF model file found.
+root - INFO - test_train_models - rf_roc_curve.png found.
+root - INFO - test_train_models - Testing train_models...
+root - INFO - test_train_models - Saved LR model file found.
+root - INFO - test_train_models - Saved RF model file found.
+root - INFO - test_train_models - lr_cls_rep.png found.
+root - INFO - test_train_models - Testing train_models...
+root - INFO - test_train_models - Saved LR model file found.
+root - INFO - test_train_models - Saved RF model file found.
+root - INFO - test_train_models - rf_cls_rep.png found.
+root - INFO - test_train_models - Testing train_models...
+root - INFO - test_train_models - Saved LR model file found.
+root - INFO - test_train_models - Saved RF model file found.
+root - INFO - test_train_models - rf_feat_imp.png found.

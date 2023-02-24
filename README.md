@@ -55,14 +55,14 @@ Subfolders were named after their content. See below for details
 Requirements come in 3 versions. requirements_py36.txt and py38.txt are for installation via pip, while requirements_py38.yml are geared toward conda.
 
 Libraries required:
-    - jobling
-    - matplotlib
-    - numpy
-    - pandas
-    - scikit-learn
-    - seaborn
-    - shap
-    - pytest
+    - jobling\
+    - matplotlib\
+    - numpy\
+    - pandas\
+    - scikit-learn\
+    - seaborn\
+    - shap\
+    - pytest\
     
 ## Running Files
 

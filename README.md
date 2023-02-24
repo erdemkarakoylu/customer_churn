@@ -62,7 +62,7 @@ Libraries required:
     - scikit-learn\
     - seaborn\
     - shap\
-    - pytest\
+    - pytest
     
 ## Running Files
 

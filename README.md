@@ -13,10 +13,9 @@ The goal of this project is the development of a churn predictor for credit card
 ## Files and data description
 
 The project directory is structured as follows. Scripts are found in the project root directory. **churn_library.py** is the main script file for data loading, EDA, feature engineering, model training, and model evaluation. **churn_script_logging_and_tests.py** contains tests for functions in **churn_library.py**; these tests were written for pytest.
+Data is located in the data/ directory stored as CSV.
 
-Requirements come in 3 versions. requirements_py36.txt and py38.txt are for installation via pip, while requirements_py38.yml are geared toward conda.
-
-Subfolders were named after their content to avoid surprises. See below for more:
+Subfolders were named after their content. See below for details
 
 ```
 .  
@@ -52,6 +51,19 @@ Subfolders were named after their content to avoid surprises. See below for more
 ```
 9 directories, 28 files
 
+## Requirements
+Requirements come in 3 versions. requirements_py36.txt and py38.txt are for installation via pip, while requirements_py38.yml are geared toward conda.
+
+Libraries required:
+    - jobling
+    - matplotlib
+    - numpy
+    - pandas
+    - scikit-learn
+    - seaborn
+    - shap
+    - pytest
+    
 ## Running Files
 
 **churn_library.py** can be run with *python churn_library.py*. No command line options are available.

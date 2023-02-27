@@ -1,4 +1,9 @@
-"""Contains pytest fixtures for churn_script_logging_and_tests.py."""
+"""
+This file contains pytest fixtures for churn_script_logging_and_tests.py.
+
+Author: Erdem Karaköylü
+Creation Date: 2/14/2023
+"""
 
 import pytest
 import churn_library as cl

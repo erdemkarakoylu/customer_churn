@@ -10,6 +10,9 @@ Functions include
 * plot_roc (called by train_models)
 * feature_importance_plot(called by train_models)
 as well as model training and evaluation for the Churn Prediction Project.
+
+Author: Erdem Karaköylü
+Creation Date: 2/14/2023
 '''
 import os
 import joblib

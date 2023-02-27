@@ -1,3 +1,10 @@
+"""
+This file contains constants used throughout the project.
+
+Author: Erdem Karaköylü
+Creation Date: 2/14/2023
+"""
+
 CAT_COLUMNS = [
     'Gender', 'Education_Level', 'Marital_Status',
     'Income_Category', 'Card_Category'                

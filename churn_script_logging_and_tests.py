@@ -1,6 +1,11 @@
-"""This module contains tests for all functions in churn_library.py.
+"""
+This module contains tests for all functions in churn_library.py.
 Tests were written for pytest and can be invoked from the command line either with
-pytest or (i)python."""
+pytest or (i)python.
+
+Author: Erdem Karaköylü
+Creation Date: 2/14/2023
+"""
 from pathlib import Path
 import logging
 

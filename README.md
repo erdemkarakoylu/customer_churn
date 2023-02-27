@@ -66,6 +66,8 @@ Libraries required:
     
 ## Running Files
 
-**churn_library.py** can be run with *python churn_library.py*. No command line options are available.
+**churn_library.py** can be run with <code>python churn_library.py</code>. No command line options are available.
 
-**churn_script_logging_and_testing.py** is run via *pytest*. Note the **pytest.ini** file in the project directory, which contains a flag to turn off *pytest* logging. This is to allow the logger, instantiated in this script, to take effect and store logs in the ./logs directory.
+**churn_script_logging_and_testing.py** can be run either with
+<code>pytest churn_script_logging_and_testing.py</code> or with
+<code>ipython churn_script_logging_and_testing.py</code>. Note the **pytest.ini** file in the project directory, which contains a flag to turn off *pytest* logging. This is to allow the logger, instantiated in **churn_script_logging_and_testing.py**, to take effect and store logs in the ./logs directory.
